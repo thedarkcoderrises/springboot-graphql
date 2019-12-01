@@ -1,8 +1,8 @@
-package com.techshard.graphql.mutation;
+package com.tdcr.graphql.mutation;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.techshard.graphql.dao.entity.Vehicle;
-import com.techshard.graphql.service.VehicleService;
+import com.tdcr.graphql.dao.entity.Vehicle;
+import com.tdcr.graphql.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

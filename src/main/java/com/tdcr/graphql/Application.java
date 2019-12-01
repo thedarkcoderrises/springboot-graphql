@@ -1,4 +1,4 @@
-package com.techshard.graphql;
+package com.tdcr.graphql;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,6 @@
-package com.techshard.graphql.dao.repository;
+package com.tdcr.graphql.dao.repository;
 
-import com.techshard.graphql.dao.entity.Vehicle;
+import com.tdcr.graphql.dao.entity.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
