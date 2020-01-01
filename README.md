@@ -1,9 +1,9 @@
 # graphql-with-spring-boot
 A sample application with GraphQL and Spring Boot
 
-#SAMPLE REQ
+**SAMPLE REQ**
 
-'''
+```
 mutation{
   createPerson(input:{
     name:"Abhi6",
@@ -72,4 +72,4 @@ mutation{
   }
 }
 
-'''
+```
