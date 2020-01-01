@@ -14,11 +14,11 @@ import javax.management.openmbean.TabularData;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-@ManagedResource(objectName="com.tdcr:name=AMQ-Mbean",description = "AMQ Manager")
+//@Component
+//@ManagedResource(objectName="com.tdcr:name=AMQ-Mbean",description = "AMQ Manager")
 public class AMQMbean {
 
-    @Autowired
+ /*   @Autowired
     private MBeanServerConnection amqConnection;
 
     @ManagedAttribute
@@ -119,5 +119,5 @@ public class AMQMbean {
             String msgId = (String) cd.get("JMSMessageID");
             srcQueueMbean.moveMessageTo(msgId,dest);
         }
-    }
+    }*/
 }

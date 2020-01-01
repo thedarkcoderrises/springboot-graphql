@@ -1,16 +1,72 @@
-type Vehicle {
-	id: ID!,
-	type: String,
-	modelCode: String,
-	brandName: String,
-	launchDate: String
+input PersonInput
+{
+ name: String
+ age: Int
+ dob: String
+ sex: String
+ addLine1: String
+ addLine2: String
+ city: String
+ state: String
+ country: Country
+ type: VehicleType
+ modelCode: String
+ brandName: String
+ launchDate: String
+ formattedDate: String
+ engineType: EngineType
 }
 
+type Person {
+ name: String
+ age: Int
+ dob: String
+ sex: String
+ address: Address
+ vehicle: Vehicle
+}
+
+type Address {
+ addLine1: String
+ addLine2: String
+ city: String
+ state: String
+ country: Country
+}
+
+type Vehicle {
+ type: VehicleType
+ modelCode: String
+ brandName: String
+ launchDate: String
+ formattedDate: String
+ engineType: EngineType
+}
+
+enum Country {
+ IND
+ NON_IND
+}
+
+enum VehicleType {
+ CAR
+ BIKE
+ CYCLE
+}
+
+enum EngineType {
+ BATTERY
+ TWO_STROKE
+ FOUR_STROKE
+}
+
+
 type Query {
-	vehicles(count: Int):[Vehicle]
-	vehicle(id: ID):Vehicle
+	persons(count: Int):[Person]
+	person(name: String):Person
+	personOnAddress(input: PersonInput):[Person]
 }
 
 type Mutation {
-	createVehicle(type: String!, modelCode: String!, brandName: String, launchDate: String):Vehicle
+	createPerson(input: PersonInput):Person
 }

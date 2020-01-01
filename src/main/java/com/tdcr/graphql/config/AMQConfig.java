@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
-@EnableMBeanExport
-public class AppConfig {
+//@Configuration
+//@EnableMBeanExport
+public class AMQConfig {
 
 /*
     @Bean
@@ -37,10 +37,10 @@ public class AppConfig {
         return assembler;
     }*/
 
-    @Bean
+    /*@Bean
     public MBeanExporter mbeanExporter() {
         MBeanExporter exporter = new AnnotationMBeanExporter();
-//        exporter.setAssembler(assembler);
+        exporter.setAssembler(assembler);
         exporter.setAutodetect(true);
         return exporter;
     }
@@ -60,7 +60,7 @@ public class AppConfig {
                 environment).getMBeanServerConnection();
         return conn;
     }
-
+*/
 
 
 }
