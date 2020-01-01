@@ -3,9 +3,9 @@ A sample application with GraphQL and Spring Boot
 
 **SAMPLE**
 
-```
-**MUTATION**
 
+**MUTATION**
+```
 mutation{
   createPerson(input:{
     name:"Abhi6",
@@ -29,9 +29,9 @@ mutation{
     sex
   }
 }
-
+```
 **QUERY**
-
+```
 {
   person(name:"Abhi"){
     name,
