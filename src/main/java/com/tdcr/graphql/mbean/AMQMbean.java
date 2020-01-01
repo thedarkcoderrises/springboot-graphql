@@ -9,9 +9,13 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.stereotype.Component;
 
 import javax.management.*;
+import javax.management.openmbean.CompositeData;
+import javax.management.openmbean.TabularData;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
-@ManagedResource
+@ManagedResource(objectName="com.tdcr:name=AMQ-Mbean",description = "AMQ Manager")
 public class AMQMbean {
 
     @Autowired
@@ -40,5 +44,80 @@ public class AMQMbean {
             return queueMbean.getName();
         }
         return null;
+    }
+
+    @ManagedOperation
+    public List<TabularData> browseAsTable() throws Exception {
+        List<TabularData> msgStat = new ArrayList<>();
+        ObjectName activeMQ = new ObjectName("org.apache.activemq:type=Broker,brokerName=D-AMQ");
+        BrokerViewMBean mbean = (BrokerViewMBean) MBeanServerInvocationHandler.newProxyInstance(amqConnection,
+                activeMQ, BrokerViewMBean.class, true);
+        for (ObjectName name : mbean.getQueues()) {
+            QueueViewMBean queueMbean = (QueueViewMBean)
+                    MBeanServerInvocationHandler.newProxyInstance(amqConnection, name,
+                            QueueViewMBean.class, true);
+             msgStat.add(queueMbean.browseAsTable());
+        }
+        return msgStat;
+    }
+
+    @ManagedOperation
+    public List<String> getStats() throws Exception {
+        List<String> stats = new ArrayList<>();
+        String tabSpace= "  ";
+        String gap= "             ";
+        ObjectName activeMQ = new ObjectName("org.apache.activemq:type=Broker,brokerName=D-AMQ");
+        BrokerViewMBean mbean = (BrokerViewMBean) MBeanServerInvocationHandler.newProxyInstance(amqConnection,
+                activeMQ, BrokerViewMBean.class, true);
+
+        StringBuilder header = new StringBuilder("QueueName")
+                .append(tabSpace)
+                .append("QueueSize")
+                .append(tabSpace)
+                .append("ConsumerCount")
+                .append(tabSpace)
+                .append("EnqueueCount")
+                .append(tabSpace)
+                .append("DequeueCount")
+                .append(tabSpace)
+                .append("MemPercentUsage")
+                .append(tabSpace)
+                .append("CursorSize");
+        stats.add(header.toString());
+        for (ObjectName name : mbean.getQueues()) {
+            QueueViewMBean queueMbean = (QueueViewMBean)
+                    MBeanServerInvocationHandler.newProxyInstance(amqConnection, name,
+                            QueueViewMBean.class, true);
+            StringBuilder stat = new StringBuilder(queueMbean.getName())
+                    .append(gap)
+                    .append(queueMbean.getQueueSize())
+                    .append(gap)
+                    .append(queueMbean.getConsumerCount())
+                    .append(gap)
+                    .append(queueMbean.getEnqueueCount())
+                    .append(gap)
+                    .append(queueMbean.getDequeueCount())
+                    .append(gap)
+                    .append(queueMbean.getMemoryPercentUsage())
+                    .append(gap)
+                    .append(queueMbean.cursorSize());
+            stats.add(stat.toString());
+        }
+        return stats;
+    }
+
+
+    @ManagedOperation
+    public void moveMsgTo (String source,String dest) throws Exception{
+        ObjectName srcON = new ObjectName("org.apache.activemq:type=Broker,brokerName=D-AMQ,destinationType=Queue,destinationName="+source);
+
+        QueueViewMBean srcQueueMbean = (QueueViewMBean)
+                MBeanServerInvocationHandler.newProxyInstance(amqConnection, srcON,
+                        QueueViewMBean.class, true);
+        for ( CompositeData cd:
+        srcQueueMbean.browse()) {
+            String msgId = (String) cd.get("JMSMessageID");
+            srcQueueMbean.moveMessageTo(msgId,dest);
+        }
     }
 }
