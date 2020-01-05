@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode
@@ -20,32 +21,6 @@ public class Person {
     String sex;
     long addressId;
     long vehicleId;
+    List<Long> friends;
 
-    public long getUid() {
-        return uid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public long getAddressId() {
-        return addressId;
-    }
-
-    public long getVehicleId() {
-        return vehicleId;
-    }
 }

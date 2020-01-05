@@ -4,12 +4,14 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.tdcr.graphql.dao.pojo.Address;
+import com.tdcr.graphql.dao.pojo.Person;
 import com.tdcr.graphql.dao.pojo.SequenceId;
 import com.tdcr.graphql.dao.pojo.Vehicle;
 import com.tdcr.graphql.dao.repository.BaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
@@ -81,5 +83,11 @@ public class BaseDaoImpl implements BaseDao {
             mo.save(vehicle);
         }
         return vehicleId;
+    }
+
+
+    @Override
+    public List<Person> getFriends(List<Long> friends) {
+        return mo.find(new Query(where("friends").in(friends)), Person.class);
     }
 }

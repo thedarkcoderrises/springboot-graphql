@@ -33,7 +33,7 @@ mutation{
 **QUERY**
 ```
 {
-  person(name:"Abhi"){
+  persons(name:"Abhi"){
     name,
     age,
     sex,

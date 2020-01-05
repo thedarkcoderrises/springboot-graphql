@@ -8,5 +8,4 @@ import java.util.Optional;
 
 public interface PersonRepository extends MongoRepository<Person, Long> {
 
-    Optional<List<Person>> findByAddressId(Long addressId);
 }

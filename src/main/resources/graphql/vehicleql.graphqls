@@ -63,6 +63,11 @@ enum EngineType {
  FOUR_STROKE
 }
 
+type Friend {
+    friends : [Int]
+    idiots: [Person]
+}
+
 type Person {
  uid: Int
  name: String
@@ -71,7 +76,10 @@ type Person {
  sex: String
  address: Address
  vehicle: Vehicle
+ friends: [Int]
 }
+
+
 
 type Query {
 	person(uid: Int): Person
@@ -82,4 +90,5 @@ type Query {
 
 type Mutation {
 	createPerson(input: PersonVO):Person
+	addFriend(ofId : Int, inId: Int):Person
 }

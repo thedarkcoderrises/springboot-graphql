@@ -64,9 +64,17 @@ public class PersonService {
         return baseDao.getVehicleId(vehicle);
     }
 
+
     @Transactional(readOnly = true)
     public List<Person> getAllPersons(final int count) {
         return this.personRepository.findAll().stream().limit(count).collect(Collectors.toList());
     }
 
+    public Person getPerson(long uid){
+        return personRepository.findOne(uid);
+    }
+
+    public void updatePeronInfo(Person inPerson) {
+        personRepository.save(inPerson);
+    }
 }
