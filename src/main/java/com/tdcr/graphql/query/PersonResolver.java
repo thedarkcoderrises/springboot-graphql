@@ -38,10 +38,10 @@ public class PersonResolver implements GraphQLResolver<Person> {
         return vehicleRepository.findOne(person.getVehicleId());
     }
 
-    public Friend friends(List friends){
+    public Friend friends(Person person){
         Friend friend = new Friend();
-        friend.setFriends(friends);
-        friend.setIdiots(baseDao.getFriends(friends));
+        friend.setFriends(person.getFriends());
+        friend.setIdiots(baseDao.getFriends(person.getFriends()));
         return friend;
     }
 

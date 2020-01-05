@@ -88,6 +88,6 @@ public class BaseDaoImpl implements BaseDao {
 
     @Override
     public List<Person> getFriends(List<Long> friends) {
-        return mo.find(new Query(where("friends").in(friends)), Person.class);
+        return mo.find(new Query(where("uid").in(friends)), Person.class);
     }
 }

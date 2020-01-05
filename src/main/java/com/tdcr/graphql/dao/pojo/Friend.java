@@ -4,15 +4,15 @@ import java.util.List;
 
 public class Friend {
 
-    List friends;
+    List<Long> friends;
 
     List<Person> idiots;
 
-    public List getFriends() {
+    public List<Long> getFriends() {
         return friends;
     }
 
-    public void setFriends(List friends) {
+    public void setFriends(List<Long> friends) {
         this.friends = friends;
     }
 

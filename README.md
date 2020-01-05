@@ -85,3 +85,17 @@ mutation{
   }
 }
 ```
+
+**NESTED-QUERY-FRIEND**
+```
+{
+  persons{
+    name
+    friends {
+      idiots {
+        name
+      }
+    }
+  }
+}
+```
