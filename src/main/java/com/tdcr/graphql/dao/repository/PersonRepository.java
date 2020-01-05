@@ -1,14 +1,12 @@
 package com.tdcr.graphql.dao.repository;
 
-import com.tdcr.graphql.dao.pojo.Address;
 import com.tdcr.graphql.dao.pojo.Person;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface PersonRepository extends MongoRepository<Person, String> {
-    Optional<Person> findByName(String name);
+public interface PersonRepository extends MongoRepository<Person, Long> {
 
-    Optional<List<Person>> findByAddress(Address address);
+    Optional<List<Person>> findByAddressId(Long addressId);
 }

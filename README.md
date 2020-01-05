@@ -77,3 +77,33 @@ mutation{
 }
 
 ```
+
+**NESTED-QUERY**
+```
+{
+  persons{
+    uid
+    name
+    age
+    sex
+    dob
+    address {
+      addressId
+      addLine1
+      addLine2
+      city
+      state
+      country
+    }
+    vehicle {
+      vehicleId
+      type
+      modelCode
+      brandName
+      launchDate
+      formattedDate
+      engineType
+    }
+  }
+}
+```

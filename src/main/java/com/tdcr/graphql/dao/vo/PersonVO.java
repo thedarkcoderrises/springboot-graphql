@@ -4,10 +4,9 @@ import com.tdcr.graphql.dao.pojo.Country;
 import com.tdcr.graphql.dao.pojo.EngineType;
 import com.tdcr.graphql.dao.pojo.VehicleType;
 
-import java.time.LocalDate;
 import java.util.Date;
 
-public class PersonInput {
+public class PersonVO {
 
     String name;
     int age;

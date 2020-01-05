@@ -1,4 +1,4 @@
-input PersonInput
+input PersonVO
 {
  name: String
  age: Int
@@ -17,16 +17,18 @@ input PersonInput
  engineType: EngineType
 }
 
-type Person {
- name: String
- age: Int
- dob: String
- sex: String
- address: Address
- vehicle: Vehicle
-}
+#type Person {
+# uid: Int
+# name: String
+# age: Int
+# dob: String
+# sex: String
+# addressId: Int!
+# vehicleId: Int!
+#}
 
 type Address {
+ addressId: Int!
  addLine1: String
  addLine2: String
  city: String
@@ -35,6 +37,7 @@ type Address {
 }
 
 type Vehicle {
+ vehicleId: Int!
  type: VehicleType
  modelCode: String
  brandName: String
@@ -60,13 +63,23 @@ enum EngineType {
  FOUR_STROKE
 }
 
+type Person {
+ uid: Int
+ name: String
+ age: Int
+ dob: String
+ sex: String
+ address: Address
+ vehicle: Vehicle
+}
 
 type Query {
-	persons(count: Int):[Person]
-	person(name: String):Person
-	personOnAddress(input: PersonInput):[Person]
+#	person(uid: Int):Person
+	address(addressId: Int): Address
+	vehicle(vehicleId: Int): Vehicle
+	persons: [Person]
 }
 
 type Mutation {
-	createPerson(input: PersonInput):Person
+	createPerson(input: PersonVO):Person
 }
