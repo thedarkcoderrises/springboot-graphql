@@ -28,7 +28,6 @@ public class BaseQuery implements GraphQLQueryResolver {
     @Autowired
     private AddressRepository addrsRepo;
 
-
    public Person person(final long uid){
        return personRepo.findOne(uid);
    }

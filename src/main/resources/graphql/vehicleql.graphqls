@@ -74,7 +74,7 @@ type Person {
 }
 
 type Query {
-#	person(uid: Int):Person
+	person(uid: Int): Person
 	address(addressId: Int): Address
 	vehicle(vehicleId: Int): Vehicle
 	persons: [Person]

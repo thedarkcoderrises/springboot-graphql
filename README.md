@@ -54,28 +54,6 @@ mutation{
   }
 }
 
-
-{
-  personOnAddress (input:{
-    addLine1: "AL1",
-    addLine2: "AL2",
-    city:"Pune",
-    state:"MH",
-    country: NON_IND
-  }){
-     name
-    age
-    dob
-    sex
-    vehicle{
-      type
-      launchDate
-      modelCode
-      brandName
-    }
-  }
-}
-
 ```
 
 **NESTED-QUERY**
