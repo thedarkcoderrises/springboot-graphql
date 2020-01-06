@@ -15,4 +15,6 @@ public interface BaseDao {
     long getNextSequenceId(String key);
 
     public List<Person> getFriends(List<Long> friends);
+
+    public List<Address> getAddress(List<Long> addressIdList);
 }

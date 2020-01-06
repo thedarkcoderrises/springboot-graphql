@@ -90,4 +90,11 @@ public class BaseDaoImpl implements BaseDao {
     public List<Person> getFriends(List<Long> friends) {
         return mo.find(new Query(where("uid").in(friends)), Person.class);
     }
+
+    @Override
+    public List<Address> getAddress(List<Long> addressIdList) {
+        return mo.find(new Query(where("addressId").in(addressIdList)), Address.class);
+    }
+
+
 }
