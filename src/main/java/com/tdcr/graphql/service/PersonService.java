@@ -2,10 +2,12 @@ package com.tdcr.graphql.service;
 
 import com.tdcr.graphql.dao.pojo.Address;
 import com.tdcr.graphql.dao.pojo.Person;
+import com.tdcr.graphql.dao.pojo.Skill;
 import com.tdcr.graphql.dao.pojo.Vehicle;
 import com.tdcr.graphql.dao.repository.AddressRepository;
 import com.tdcr.graphql.dao.repository.BaseDao;
 import com.tdcr.graphql.dao.repository.PersonRepository;
+import com.tdcr.graphql.dao.repository.SkillRepository;
 import com.tdcr.graphql.dao.vo.PersonVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class PersonService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private SkillRepository skillRepository;
 
     @Autowired
     BaseDao baseDao;
@@ -76,5 +81,18 @@ public class PersonService {
 
     public void updatePeronInfo(Person inPerson) {
         personRepository.save(inPerson);
+    }
+
+    public List<Skill> updateSkillSet(Person ofPerson, List<String> skillSet) {
+        skillSet.forEach(skill -> updateKill(skill,ofPerson));
+        return baseDao.fetchPersonSkills(ofPerson.getUid());
+    }
+
+    private void updateKill(String skillType, Person ofPerson) {
+        Skill skill = new Skill();
+        skill.setSkillId(baseDao.getNextSequenceId("skill"));
+        skill.setUid(ofPerson.getUid());
+        skill.setSkillName(skillType);
+        skillRepository.save(skill);
     }
 }

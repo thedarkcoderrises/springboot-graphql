@@ -99,3 +99,94 @@ mutation{
   }
 }
 ```
+
+**FRAGMENT & ALIAS**
+```
+query PersonComparison($auid: Int ,$muid: Int) {
+	abhi: person(uid: $auid) {
+    ...comparisonFields
+  }
+  manth: person(uid: $muid) {
+    ...comparisonFields
+  }
+}
+
+fragment comparisonFields on Person {
+ name
+   friends{
+    idiots{
+      name
+      age
+    }
+  }
+}
+
+QUERY VARIABLES
+{
+  "auid":1,
+  "muid":3
+}
+
+```
+
+**DIRECTIVE**
+
+```
+query PersonComparison($auid: Int ,$muid: Int, $friends: Boolean!) {
+	abhi: person(uid: $auid) {
+    ...comparisonFields
+  }
+  manth: person(uid: $muid) {
+    ...comparisonFields
+  }
+}
+
+
+fragment comparisonFields on Person {
+ name
+  address {
+    addLine1
+    addLine2
+    city
+    state
+    country
+  }
+  vehicle {
+    type
+    modelCode
+    brandName
+    launchDate
+    formattedDate
+    engineType
+  }
+   friends  @include(if: $friends){
+    idiots{
+      name
+      address {
+        addLine1
+        addLine2
+        city
+        state
+        country
+      }
+      vehicle {
+        type
+        modelCode
+        brandName
+        launchDate
+        formattedDate
+        engineType
+      }
+    }
+  }
+}
+
+
+QUERY VARIABLES
+
+{
+  "auid": 1,
+  "muid": 3,
+  "friends": false
+}
+```

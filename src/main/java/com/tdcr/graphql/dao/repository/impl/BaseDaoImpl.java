@@ -3,10 +3,7 @@ package com.tdcr.graphql.dao.repository.impl;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.tdcr.graphql.dao.pojo.Address;
-import com.tdcr.graphql.dao.pojo.Person;
-import com.tdcr.graphql.dao.pojo.SequenceId;
-import com.tdcr.graphql.dao.pojo.Vehicle;
+import com.tdcr.graphql.dao.pojo.*;
 import com.tdcr.graphql.dao.repository.BaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -96,5 +93,13 @@ public class BaseDaoImpl implements BaseDao {
         return mo.find(new Query(where("addressId").in(addressIdList)), Address.class);
     }
 
+    @Override
+    public List<Skill> fetchPersonSkills(long uid) {
+        return mo.find(new Query(where("uid").is(uid)), Skill.class);
+    }
 
+    @Override
+    public List<Skill> getSkills(List<Long> list) {
+        return mo.find(new Query(where("uid").in(list)), Skill.class);
+    }
 }

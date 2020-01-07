@@ -17,16 +17,6 @@ input PersonVO
  engineType: EngineType
 }
 
-#type Person {
-# uid: Int
-# name: String
-# age: Int
-# dob: String
-# sex: String
-# addressId: Int!
-# vehicleId: Int!
-#}
-
 type Address {
  addressId: Int!
  addLine1: String
@@ -77,8 +67,14 @@ type Person {
  address: Address
  vehicle: Vehicle
  friends: Friend
+ skills: String
 }
 
+type Skill{
+ skillId: Int
+ uid: Int
+ skillName: String
+}
 
 
 type Query {
@@ -91,4 +87,5 @@ type Query {
 type Mutation {
 	createPerson(input: PersonVO):Person
 	addFriend(ofId : Int, inId: Int):Person
+	addSkill(ofId : Int, skillSet: [String]):[Skill]
 }

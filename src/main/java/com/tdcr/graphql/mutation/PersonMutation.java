@@ -2,6 +2,7 @@ package com.tdcr.graphql.mutation;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.tdcr.graphql.dao.pojo.Person;
+import com.tdcr.graphql.dao.pojo.Skill;
 import com.tdcr.graphql.dao.vo.PersonVO;
 import com.tdcr.graphql.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.bind.ValidationException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -33,5 +35,13 @@ public class PersonMutation implements GraphQLMutationResolver {
         inPerson.getFriends().add(ofId);
         personService.updatePeronInfo(inPerson);
         return  inPerson;
+    }
+
+    public List<Skill> addSkill(long uid, List<String> skillSet) throws ValidationException {
+        Person ofPerson = personService.getPerson(uid);
+        if(Objects.isNull(ofPerson)){
+            throw new ValidationException("Person doesn't exist","ofId:"+uid);
+        }
+        return personService.updateSkillSet(ofPerson,skillSet);
     }
 }
