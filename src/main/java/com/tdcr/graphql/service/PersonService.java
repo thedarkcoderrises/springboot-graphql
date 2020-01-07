@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,10 +90,15 @@ public class PersonService {
     }
 
     private void updateKill(String skillType, Person ofPerson) {
-        Skill skill = new Skill();
-        skill.setSkillId(baseDao.getNextSequenceId("skill"));
-        skill.setUid(ofPerson.getUid());
-        skill.setSkillName(skillType);
-        skillRepository.save(skill);
+        Skill skill;
+        String regExSkillName = "^(?i)"+ Pattern.quote(skillType);
+        skill = skillRepository.isExistingSkill(regExSkillName,ofPerson.getUid());
+        if(skill == null){
+            skill = new Skill();
+            skill.setSkillId(baseDao.getNextSequenceId("skill"));
+            skill.setUid(ofPerson.getUid());
+            skill.setSkillName(skillType);
+            skillRepository.save(skill);
+        }
     }
 }
