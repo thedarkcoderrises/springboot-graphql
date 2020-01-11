@@ -16,6 +16,7 @@ import java.util.List;
 @Component
 public class BaseQuery implements GraphQLQueryResolver {
 
+
     @Autowired
     private PersonService personService;
 

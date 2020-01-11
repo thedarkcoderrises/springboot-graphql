@@ -23,4 +23,7 @@ public class Person {
     long vehicleId;
     List<Long> friends;
 
+    public String getName() {
+        return name;
+    }
 }

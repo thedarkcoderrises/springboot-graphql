@@ -18,7 +18,7 @@ public class Application {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests().anyRequest().permitAll()
-                    .and().csrf().disable();
+                    .and().csrf().disable(); // disabling login auth
         }
     }
 }
