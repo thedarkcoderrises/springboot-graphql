@@ -1,5 +1,6 @@
 package com.tdcr.graphql.directives;
 
+import graphql.language.BooleanValue;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetcherFactories;
 import graphql.schema.GraphQLFieldDefinition;
@@ -13,16 +14,21 @@ public class UpperCaseDirective implements SchemaDirectiveWiring {
         GraphQLFieldDefinition field = (GraphQLFieldDefinition)environment.getElement();
 
         DataFetcher originalFetcher = field.getDataFetcher();
-        DataFetcher dataFetcher = DataFetcherFactories.wrapDataFetcher(originalFetcher, ((dataFetchingEnvironment, value) -> {
-            return value.toString().toUpperCase();
+        DataFetcher dataFetcher = DataFetcherFactories.wrapDataFetcher(originalFetcher,
+                ((dataFetchingEnvironment, value) -> {
+                    BooleanValue isActive;
+                            if(dataFetchingEnvironment.getField()
+                                    .getDirective("upper") == null){
+                                isActive = BooleanValue.newBooleanValue().build();
+                            }else{
+                                isActive = (BooleanValue) dataFetchingEnvironment.getField()
+                                        .getDirective("upper")
+                                        .getArgument("isActive").getValue();
+                            }
+
+            return (isActive.isValue())? value.toString().toUpperCase(): value;
         }));
          return field.transform( builder -> builder.dataFetcher(dataFetcher) );
     }
 }
-
-
-//https://github.com/graphql-java/graphql-java/blob/master/src/test/groovy/readme/DirectivesExamples.java
-// https://www.graphql-java-kickstart.com/tools/directives/
-//https://github.com/graphql-java/graphql-java-extended-validation#the-supplied-directive-constraints
-//https://github.com/graphql-java-kickstart/samples/blob/master/directives/src/main/java/directives/UppercaseDirective.java
 //9527606697 Jayshree

@@ -190,3 +190,12 @@ QUERY VARIABLES
   "friends": false
 }
 ```
+
+**CUSTOM_DIRECTIVE**
+```
+{
+  persons{
+    name @upper(isActive:true)
+  }
+}
+```
