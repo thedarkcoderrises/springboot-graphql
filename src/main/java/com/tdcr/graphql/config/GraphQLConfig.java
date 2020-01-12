@@ -71,26 +71,11 @@ public class GraphQLConfig {
     }
 
     @Bean
-    Instrumentation instrumentation() {
-        DataLoaderDispatcherInstrumentation dldi = new DataLoaderDispatcherInstrumentation();
+    Instrumentation instrumentation(DataLoaderRegistry registry) {
+        DataLoaderDispatcherInstrumentation dldi = new DataLoaderDispatcherInstrumentation(registry);
         return dldi;
     }
 
-//    @Bean
-    /*public GraphQLSchema schema() throws IOException{
-        GraphQLSchema graphQLSchema;
-        InputStream inputStream = resource.getInputStream();
-        InputStreamReader streamReader = new InputStreamReader(inputStream);
-        TypeDefinitionRegistry typeDefinitionRegistry = new SchemaParser().parse(streamReader);
-
-        SchemaDirectiveWiring upperDirective = new UpperCaseDirective();
-        RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
-//                .type("Query", typeWiring -> typeWiring.dataFetcher("person",baseQuery)))
-                .directive("upper", upperDirective)
-                .build();
-        graphQLSchema =new SchemaGenerator().makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
-        return graphQLSchema;
-    }*/
 
   @Bean
   public BaseQuery baseQuery(PersonService personService,
@@ -130,10 +115,26 @@ public class GraphQLConfig {
    }
 
    @Bean
-    public GraphQL graphQL(GraphQLSchema schema){
+    public GraphQL graphQL(GraphQLSchema schema,Instrumentation instrumentation){
         return GraphQL.newGraphQL(schema)
+                .instrumentation(instrumentation)
                 .build();
    }
+
+    /*public GraphQLSchema schema() throws IOException{
+        GraphQLSchema graphQLSchema;
+        InputStream inputStream = resource.getInputStream();
+        InputStreamReader streamReader = new InputStreamReader(inputStream);
+        TypeDefinitionRegistry typeDefinitionRegistry = new SchemaParser().parse(streamReader);
+
+        SchemaDirectiveWiring upperDirective = new UpperCaseDirective();
+        RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
+//                .type("Query", typeWiring -> typeWiring.dataFetcher("person",baseQuery)))
+                .directive("upper", upperDirective)
+                .build();
+        graphQLSchema =new SchemaGenerator().makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
+        return graphQLSchema;
+    }*/
 
 }
 
