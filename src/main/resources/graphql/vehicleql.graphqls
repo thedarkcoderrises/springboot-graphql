@@ -64,7 +64,7 @@ type Person {
  age: Int
  dob: String
  sex: String
- address: Address
+ address: Address @timeout
  vehicle: Vehicle
  friends: Friend
  skills: String

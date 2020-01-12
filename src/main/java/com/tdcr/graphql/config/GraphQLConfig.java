@@ -1,25 +1,21 @@
 package com.tdcr.graphql.config;
 
+import com.coxautodev.graphql.tools.SchemaParser;
 import com.tdcr.graphql.dao.repository.AddressRepository;
 import com.tdcr.graphql.dao.repository.BaseDao;
 import com.tdcr.graphql.dao.repository.PersonRepository;
 import com.tdcr.graphql.dao.repository.VehicleRepository;
-import com.tdcr.graphql.directives.AppDirectives;
+import com.tdcr.graphql.directives.CustomDirectives;
+import com.tdcr.graphql.directives.TimeoutDirective;
 import com.tdcr.graphql.directives.UpperCaseDirective;
 import com.tdcr.graphql.mutation.PersonMutation;
 import com.tdcr.graphql.query.BaseQuery;
 import com.tdcr.graphql.query.PersonResolver;
 import com.tdcr.graphql.service.PersonService;
 import graphql.GraphQL;
-import graphql.Scalars;
 import graphql.execution.instrumentation.Instrumentation;
 import graphql.execution.instrumentation.dataloader.DataLoaderDispatcherInstrumentation;
-import graphql.introspection.Introspection;
-import graphql.schema.GraphQLArgument;
-import graphql.schema.GraphQLDirective;
-import graphql.schema.GraphQLNonNull;
 import graphql.schema.GraphQLSchema;
-import graphql.schema.idl.*;
 import org.dataloader.DataLoaderRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,16 +23,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-import com.coxautodev.graphql.tools.SchemaParser;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.LinkedHashSet;
-
-import static graphql.introspection.Introspection.DirectiveLocation.*;
 
 
 @Configuration
@@ -95,9 +81,13 @@ public class GraphQLConfig {
                .resolvers(personResolver)
                .resolvers(personMutation)
                .directive("upper", new UpperCaseDirective())
+               .directive("timeout", new TimeoutDirective())
                .build().makeExecutableSchema();
 
-       schema = GraphQLSchema.newSchema(schema).additionalDirective(AppDirectives.UpperDirective).build();
+       schema = GraphQLSchema.newSchema(schema)
+               .additionalDirective(CustomDirectives.UpperDirective)
+               .additionalDirective(CustomDirectives.TimeoutDirective)
+               .build();
        return  schema;
    }
 
