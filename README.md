@@ -196,6 +196,13 @@ QUERY VARIABLES
 {
   persons{
     name @upper(isActive:true)
+    address @timeout(timeInMillis:9){
+         addLine1
+         addLine2
+         city
+         state
+         country
+       }
   }
 }
 ```

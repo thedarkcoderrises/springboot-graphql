@@ -8,6 +8,7 @@ import com.tdcr.graphql.dao.repository.VehicleRepository;
 import com.tdcr.graphql.directives.CustomDirectives;
 import com.tdcr.graphql.directives.TimeoutDirective;
 import com.tdcr.graphql.directives.UpperCaseDirective;
+import com.tdcr.graphql.instrumentation.TraceInstrumentation;
 import com.tdcr.graphql.mutation.PersonMutation;
 import com.tdcr.graphql.query.BaseQuery;
 import com.tdcr.graphql.query.PersonResolver;
@@ -106,6 +107,7 @@ public class GraphQLConfig {
     public GraphQL graphQL(GraphQLSchema schema,Instrumentation instrumentation){
         return GraphQL.newGraphQL(schema)
                 .instrumentation(instrumentation)
+                .instrumentation(new TraceInstrumentation())
                 .build();
    }
 

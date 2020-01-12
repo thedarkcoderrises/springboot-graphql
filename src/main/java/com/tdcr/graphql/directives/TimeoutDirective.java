@@ -27,11 +27,11 @@ public class TimeoutDirective implements SchemaDirectiveWiring {
                 try {
                     return   CompletableFuture.supplyAsync(()->{
                         Object result = originalDataFetcher.get(dataFetchingEnvironment);
-                        try {
+                        /*try {
                             Thread.sleep(10);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
-                        }
+                        }*/
                         return result;
                     }).get(timeoutInMillis.getValue().intValue(),TimeUnit.MILLISECONDS);
                 } catch (InterruptedException e) {
@@ -44,8 +44,6 @@ public class TimeoutDirective implements SchemaDirectiveWiring {
                 return null;
             }
         };
-
-
 
         return field.transform( builder -> builder.dataFetcher(timeoutDataFetcher) );
     }
