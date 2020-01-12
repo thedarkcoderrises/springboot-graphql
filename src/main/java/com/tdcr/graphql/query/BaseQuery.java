@@ -8,7 +8,6 @@ import com.tdcr.graphql.dao.repository.AddressRepository;
 import com.tdcr.graphql.dao.repository.PersonRepository;
 import com.tdcr.graphql.dao.repository.VehicleRepository;
 import com.tdcr.graphql.service.PersonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,19 +16,22 @@ import java.util.List;
 public class BaseQuery implements GraphQLQueryResolver {
 
 
-    @Autowired
     private PersonService personService;
 
-    @Autowired
     private PersonRepository personRepo;
 
-    @Autowired
     private VehicleRepository vehicleRepo;
 
-    @Autowired
     private AddressRepository addrsRepo;
 
-   public Person person(final long uid){
+    public BaseQuery(PersonService personService, PersonRepository personRepo, VehicleRepository vehicleRepo, AddressRepository addrsRepo) {
+        this.personService = personService;
+        this.personRepo = personRepo;
+        this.vehicleRepo = vehicleRepo;
+        this.addrsRepo = addrsRepo;
+    }
+
+    public Person person(final long uid){
        return personRepo.findOne(uid);
    }
 

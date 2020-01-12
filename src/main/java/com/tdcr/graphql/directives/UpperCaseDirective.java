@@ -12,22 +12,11 @@ public class UpperCaseDirective implements SchemaDirectiveWiring {
     public GraphQLFieldDefinition onField(SchemaDirectiveWiringEnvironment<GraphQLFieldDefinition> environment) {
         GraphQLFieldDefinition field = (GraphQLFieldDefinition)environment.getElement();
 
-        DataFetcher originalFetcher= null;// = field.getDataFetcher();
+        DataFetcher originalFetcher = field.getDataFetcher();
         DataFetcher dataFetcher = DataFetcherFactories.wrapDataFetcher(originalFetcher, ((dataFetchingEnvironment, value) -> {
             return value.toString().toUpperCase();
         }));
-
          return field.transform( builder -> builder.dataFetcher(dataFetcher) );
-
-        /*GraphQLFieldDefinition field = GraphQLFieldDefinition.newFieldDefinition()
-                .name("name")
-                .type(Scalars.GraphQLString)
-//                .withDirective(GraphQLDirective.newDirective()
-//                        .name("upper"))
-                .dataFetcher(PropertyDataFetcher.fetching("sex"))
-                .build();
-
-        return field;*/
     }
 }
 
@@ -35,4 +24,5 @@ public class UpperCaseDirective implements SchemaDirectiveWiring {
 //https://github.com/graphql-java/graphql-java/blob/master/src/test/groovy/readme/DirectivesExamples.java
 // https://www.graphql-java-kickstart.com/tools/directives/
 //https://github.com/graphql-java/graphql-java-extended-validation#the-supplied-directive-constraints
+//https://github.com/graphql-java-kickstart/samples/blob/master/directives/src/main/java/directives/UppercaseDirective.java
 //9527606697 Jayshree

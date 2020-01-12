@@ -8,16 +8,13 @@ import com.tdcr.graphql.dao.repository.VehicleRepository;
 import org.dataloader.BatchLoader;
 import org.dataloader.DataLoader;
 import org.dataloader.DataLoaderRegistry;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-
 
 @Component
 public class PersonResolver implements GraphQLResolver<Person> {
@@ -39,10 +36,10 @@ public class PersonResolver implements GraphQLResolver<Person> {
     DataLoader<Long,String> skillDataLoader;
 
 
-    public PersonResolver(@Autowired AddressRepository addressRepository,
-                          @Autowired VehicleRepository vehicleRepository,
-                          @Autowired BaseDao baseDao,
-                          @Autowired DataLoaderRegistry dataLoaderRegistry) {
+    public PersonResolver( AddressRepository addressRepository,
+                           VehicleRepository vehicleRepository,
+                           BaseDao baseDao,
+                           DataLoaderRegistry dataLoaderRegistry) {
         this.addressRepository = addressRepository;
         this.vehicleRepository = vehicleRepository;
         this.baseDao = baseDao;
