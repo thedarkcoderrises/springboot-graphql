@@ -1,7 +1,8 @@
 package com.tdcr.graphql.directives;
 
-import com.tdcr.graphql.dao.pojo.Person;
-import graphql.schema.*;
+import graphql.schema.DataFetcher;
+import graphql.schema.DataFetcherFactories;
+import graphql.schema.GraphQLFieldDefinition;
 import graphql.schema.idl.SchemaDirectiveWiring;
 import graphql.schema.idl.SchemaDirectiveWiringEnvironment;
 
@@ -16,17 +17,6 @@ public class UpperCaseDirective implements SchemaDirectiveWiring {
             return value.toString().toUpperCase();
         }));
          return field.transform( builder -> builder.dataFetcher(dataFetcher) );
-       /* GraphQLFieldDefinition field = (GraphQLFieldDefinition)environment.getElement();
-        GraphQLFieldsContainer parentType = environment.getFieldsContainer();
-
-        DataFetcher dataFetcher = new DataFetcher() {
-            @Override
-            public Object get(DataFetchingEnvironment dataFetchingEnvironment) throws Exception {
-                Person p = dataFetchingEnvironment.getSource();
-                return p.getName().toUpperCase();
-            }
-        };
-        return  field.transform( builder -> builder.dataFetcher(dataFetcher) );*/
     }
 }
 
