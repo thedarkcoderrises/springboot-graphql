@@ -80,7 +80,7 @@ directive @deprecated(
   reason: String = "No longer supported"
 ) on FIELD_DEFINITION | ENUM_VALUE
 
-"UPPER-CASE" directive @upper on FIELD_DEFINITION
+"UPPER-CASE" directive @upper on FIELD_DEFINITION | FIELD
 
 type Query {
 	person(uid: Int): Person
