@@ -8,14 +8,17 @@ import com.tdcr.graphql.dao.repository.VehicleRepository;
 import com.tdcr.graphql.directives.CustomDirectives;
 import com.tdcr.graphql.directives.TimeoutDirective;
 import com.tdcr.graphql.directives.UpperCaseDirective;
-import com.tdcr.graphql.instrumentation.TraceInstrumentation;
 import com.tdcr.graphql.mutation.PersonMutation;
 import com.tdcr.graphql.query.BaseQuery;
 import com.tdcr.graphql.query.PersonResolver;
 import com.tdcr.graphql.service.PersonService;
 import graphql.GraphQL;
+import graphql.analysis.MaxQueryComplexityInstrumentation;
+import graphql.analysis.MaxQueryDepthInstrumentation;
+import graphql.execution.instrumentation.ChainedInstrumentation;
 import graphql.execution.instrumentation.Instrumentation;
 import graphql.execution.instrumentation.dataloader.DataLoaderDispatcherInstrumentation;
+import graphql.execution.instrumentation.tracing.TracingInstrumentation;
 import graphql.schema.GraphQLSchema;
 import org.dataloader.DataLoaderRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+
+import java.util.Arrays;
 
 
 @Configuration
@@ -98,16 +103,21 @@ public class GraphQLConfig {
     }
 
     @Bean
-    Instrumentation instrumentation(DataLoaderRegistry dataLoaderRegistry) {
+    Instrumentation dataLoaderInstrumentation(DataLoaderRegistry dataLoaderRegistry) {
         DataLoaderDispatcherInstrumentation dldi = new DataLoaderDispatcherInstrumentation(dataLoaderRegistry);
         return dldi;
     }
 
+
    @Bean
-    public GraphQL graphQL(GraphQLSchema schema,Instrumentation instrumentation){
+    public GraphQL graphQL(GraphQLSchema schema){
+
         return GraphQL.newGraphQL(schema)
-                .instrumentation(instrumentation)
-                .instrumentation(new TraceInstrumentation())
+                .instrumentation(new ChainedInstrumentation(Arrays.asList(
+                        new MaxQueryComplexityInstrumentation(200),
+                        new MaxQueryDepthInstrumentation(20),//This instrumentation controll how much depth we have have in graphql query.
+//                        TracingInstrumentation.Options.newOptions().includeTrivialDataFetchers()
+                        new TracingInstrumentation())))
                 .build();
    }
 

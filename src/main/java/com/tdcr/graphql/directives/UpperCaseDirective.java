@@ -31,4 +31,7 @@ public class UpperCaseDirective implements SchemaDirectiveWiring {
          return field.transform( builder -> builder.dataFetcher(dataFetcher) );
     }
 }
+//TODO
 //9527606697 Jayshree
+//https://www.howtographql.com/graphql-java/7-error-handling/
+//https://github.com/AnkushNakaskar/springbootspqrgraphql

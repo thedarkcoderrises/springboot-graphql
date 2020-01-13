@@ -8,7 +8,6 @@ import graphql.execution.instrumentation.SimpleInstrumentation;
 import graphql.execution.instrumentation.SimpleInstrumentationContext;
 import graphql.execution.instrumentation.parameters.InstrumentationExecutionParameters;
 import graphql.execution.instrumentation.parameters.InstrumentationFieldFetchParameters;
-import graphql.language.Document;
 import graphql.schema.DataFetcher;
 
 import java.util.concurrent.CompletableFuture;
@@ -51,10 +50,5 @@ public class TraceInstrumentation extends SimpleInstrumentation {
         // the `extensions` map of data in place
         //
         return CompletableFuture.completedFuture(executionResult);
-    }
-
-    @Override
-    public InstrumentationContext<Document> beginParse(InstrumentationExecutionParameters parameters) {
-        return super.beginParse(parameters);
     }
 }
