@@ -15,6 +15,7 @@ import com.tdcr.graphql.service.PersonService;
 import graphql.GraphQL;
 import graphql.analysis.MaxQueryComplexityInstrumentation;
 import graphql.analysis.MaxQueryDepthInstrumentation;
+import graphql.execution.batched.BatchedExecutionStrategy;
 import graphql.execution.instrumentation.ChainedInstrumentation;
 import graphql.execution.instrumentation.Instrumentation;
 import graphql.execution.instrumentation.dataloader.DataLoaderDispatcherInstrumentation;
@@ -102,24 +103,19 @@ public class GraphQLConfig {
         return new DataLoaderRegistry();
     }
 
+
+
     @Bean
-    Instrumentation dataLoaderInstrumentation(DataLoaderRegistry dataLoaderRegistry) {
-        DataLoaderDispatcherInstrumentation dldi = new DataLoaderDispatcherInstrumentation(dataLoaderRegistry);
-        return dldi;
+    Instrumentation chainedInstrumentation(DataLoaderRegistry dataLoaderRegistry){
+       return new ChainedInstrumentation(Arrays.asList(
+                new MaxQueryComplexityInstrumentation(200),
+                new MaxQueryDepthInstrumentation(20),//This instrumentation controll how much depth we have have in graphql query.
+//                        TracingInstrumentation.Options.newOptions().includeTrivialDataFetchers()
+                new TracingInstrumentation(),
+               new DataLoaderDispatcherInstrumentation(dataLoaderRegistry)
+       ));
     }
 
-
-   @Bean
-    public GraphQL graphQL(GraphQLSchema schema){
-
-        return GraphQL.newGraphQL(schema)
-                .instrumentation(new ChainedInstrumentation(Arrays.asList(
-                        new MaxQueryComplexityInstrumentation(200),
-                        new MaxQueryDepthInstrumentation(20),//This instrumentation controll how much depth we have have in graphql query.
-//                        TracingInstrumentation.Options.newOptions().includeTrivialDataFetchers()
-                        new TracingInstrumentation())))
-                .build();
-   }
 
 }
 
