@@ -117,5 +117,12 @@ public class GraphQLConfig {
     }
 
 
+    @Bean
+    public GraphQL graphQL(GraphQLSchema schema,Instrumentation instrumentation){
+        return GraphQL.newGraphQL(schema)
+                .instrumentation(instrumentation)
+                .build();
+    }
+
 }
 
